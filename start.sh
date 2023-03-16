@@ -1,6 +1,6 @@
 
 cd ./service
-nohup pnpm start > service.log &
+nohup python -m flask run --port 3002 > service.log &
 echo "Start service complete!"
 
 
