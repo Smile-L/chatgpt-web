@@ -68,4 +68,4 @@ COPY --from=frontend /app/dist /app/public
 
 EXPOSE 3002
 
-CMD ["pnpm", "run", "prod","/usr/local/bin/python3.9"]
+CMD ["/app/start.sh"]
