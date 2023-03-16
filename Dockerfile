@@ -68,4 +68,5 @@ COPY --from=frontend /app/dist /app/public
 
 EXPOSE 3002
 
-CMD ["/app/start.sh"]
+# CMD ["pnpm", "run", "prod"]
+CMD ["sh","/app/start.sh"]
