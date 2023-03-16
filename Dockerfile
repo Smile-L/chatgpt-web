@@ -16,11 +16,11 @@ COPY . /app
 RUN pnpm run build
 
 # build backend
-FROM node:lts-alpine as backend
+# FROM node:lts-alpine as backend
 
-RUN npm install pnpm -g
+# RUN npm install pnpm -g
 
-WORKDIR /app
+# WORKDIR /app
 
 # COPY /service/package.json /app
 
@@ -28,14 +28,14 @@ WORKDIR /app
 
 # RUN pnpm install
 
-COPY /service /app
+# COPY /service /app
 
 # RUN pnpm build
 
 # service
-FROM node:lts-alpine
+# FROM node:lts-alpine
 
-RUN npm install pnpm -g
+# RUN npm install pnpm -g
 
 WORKDIR /app
 
@@ -52,7 +52,7 @@ RUN pip3 install --no-cache --upgrade pip setuptools
 # RUN easy_install pip
 # RUN curl https://bootstrap.pypa.io/get-pip.py | python
 COPY /service/requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+RUN pip3 install -r /app/requirements.txt
 
 # COPY /service/package.json /app
 
@@ -62,7 +62,11 @@ RUN pip install -r /app/requirements.txt
 
 COPY /service /app
 
-COPY --from=frontend /app/dist /app/public
+COPY ./package.json /app
+
+COPY ./pnpm-lock.yaml /app
+
+# COPY /app/dist /app/public
 
 # COPY --from=backend /app/build /app/build
 
