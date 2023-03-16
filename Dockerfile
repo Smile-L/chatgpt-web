@@ -35,7 +35,7 @@ COPY /service /app
 # service
 FROM node:lts-alpine
 
-# RUN npm install pnpm -g
+RUN npm install pnpm -g
 
 WORKDIR /app
 
@@ -68,5 +68,6 @@ COPY --from=frontend /app/dist /app/public
 
 EXPOSE 3002
 
+COPY /start.sh /app/start.sh
 # CMD ["pnpm", "run", "prod"]
 CMD ["sh","/app/start.sh"]
