@@ -52,7 +52,7 @@ RUN pip3 install --no-cache --upgrade pip setuptools
 # RUN easy_install pip
 # RUN curl https://bootstrap.pypa.io/get-pip.py | python
 COPY /service/requirements.txt /app/requirements.txt
-RUN pip3 install -r /app/requirements.txt
+# RUN pip3 install -r /app/requirements.txt
 RUN pip3 install tqdm==4.65.0
 RUN pip3 install Flask==2.1.0
 RUN pip3 install llama-index==0.4.12
