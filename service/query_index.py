@@ -1,7 +1,6 @@
 # author=simin.li
 
 import os
-import pandas as pd
 from tqdm import tqdm
 import time
 from llama_index import GPTSimpleVectorIndex#, SimpleDirectoryReader

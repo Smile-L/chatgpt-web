@@ -56,8 +56,7 @@ RUN pip3 install -r /app/requirements.txt
 RUN pip3 install tqdm==4.65.0
 RUN pip3 install Flask==2.1.0
 RUN pip3 install llama-index==0.4.12
-RUN pip3 install pandas==1.3.5
-RUN pip3 install angchain==0.0.27
+RUN pip3 install langchain==0.0.27
 
 # COPY /service/package.json /app
 
