@@ -22,13 +22,13 @@ RUN npm install pnpm -g
 
 WORKDIR /app
 
-COPY /service/package.json /app
+# COPY /service/package.json /app
 
-COPY /service/pnpm-lock.yaml /app
+# COPY /service/pnpm-lock.yaml /app
 
 RUN pnpm install
 
-COPY /service /app
+# COPY /service /app
 
 RUN pnpm build
 
@@ -39,13 +39,13 @@ RUN npm install pnpm -g
 
 WORKDIR /app
 
-COPY /service/package.json /app
+# COPY /service/package.json /app
 
-COPY /service/pnpm-lock.yaml /app
+# COPY /service/pnpm-lock.yaml /app
 
-RUN pnpm install --production && rm -rf /root/.npm /root/.pnpm-store /usr/local/share/.cache /tmp/*
+# RUN pnpm install --production && rm -rf /root/.npm /root/.pnpm-store /usr/local/share/.cache /tmp/*
 
-COPY /service /app
+# COPY /service /app
 
 COPY --from=frontend /app/dist /app/public
 
@@ -53,4 +53,4 @@ COPY --from=frontend /app/dist /app/public
 
 # EXPOSE 3002
 
-CMD ["pnpm", "run", "dev"]
+CMD ["pnpm", "run", "prod"]
