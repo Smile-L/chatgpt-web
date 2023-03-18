@@ -168,7 +168,8 @@ async function onConversation() {
         +uuid,
         dataSources.value.length - 1,
         {
-          text: `${currentChat.text}\n[${errorMessage}]`,
+          // text: `${currentChat.text}\n[${errorMessage}]`,
+          text: `${currentChat.text}`,
           error: false,
           loading: false,
         },

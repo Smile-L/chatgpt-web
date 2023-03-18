@@ -1,7 +1,7 @@
 
-# cd ./service
-nohup python3 -m flask run --port 3002 > service.log &
-echo "Start service complete!"
+# # cd ./service
+# nohup python3 -m flask run --port 3002 > service.log &
+# echo "Start service complete!"
 
 
 # cd ..
