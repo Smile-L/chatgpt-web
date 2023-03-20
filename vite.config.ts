@@ -1,11 +1,17 @@
 import path from 'path'
-import { defineConfig, loadEnv } from 'vite'
+// import { defineConfig, loadEnv } from 'vite'
+import { defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig((env) => {
-  const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
-
+  // const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
+  const viteEnv = {
+  VITE_GLOB_API_URL: '/api',
+  VITE_APP_API_BASE_URL: 'https://chat-benckend-production.up.railway.app/',
+  VITE_GLOB_OPEN_LONG_REPLY: 'false'
+}
+  console.log(viteEnv)
   return {
     resolve: {
       alias: {
