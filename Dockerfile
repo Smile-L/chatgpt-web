@@ -48,6 +48,7 @@ RUN pnpm run build
 # COPY /service /app
 
 # COPY --from=frontend /app/dist /app/public
+RUN cp -r /app/dist /app/public
 
 # COPY --from=backend /app/build /app/build
 
