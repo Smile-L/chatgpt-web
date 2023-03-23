@@ -15,9 +15,9 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: 'https://img1.baidu.com/it/u=2008781013,98821149&fm=253&fmt=auto&app=138&f=PNG?w=150&h=150',
-      name: 'ChinaCDC',
-      description: 'covid-19 QA',
+      avatar: 'https://img0.baidu.com/it/u=377751369,150855479&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
+      name: '问宠',
+      description: '关于宠物的问题，请来问我吧～',
     },
   }
 }
