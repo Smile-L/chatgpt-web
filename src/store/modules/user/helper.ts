@@ -16,8 +16,8 @@ export function defaultSetting(): UserState {
   return {
     userInfo: {
       avatar: 'https://img0.baidu.com/it/u=377751369,150855479&fm=253&fmt=auto&app=138&f=JPEG?w=200&h=200',
-      name: '问宠',
-      description: '关于宠物的问题，请来问我吧～',
+      name: 'ask PET',
+      description: 'ask me',
     },
   }
 }
