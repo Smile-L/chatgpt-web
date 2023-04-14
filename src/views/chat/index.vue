@@ -77,11 +77,12 @@ async function onConversation() {
   loading.value = true
   prompt.value = ''
 
-  let options: Chat.ConversationRequest = {}
+  let options = {}
   const lastContext = conversationList.value[conversationList.value.length - 1]?.conversationOptions
 
   if (lastContext && usingContext.value)
     options = { ...lastContext }
+    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
 
   addChat(
     +uuid,
@@ -207,10 +208,11 @@ async function onRegenerate(index: number) {
 
   let message = requestOptions?.prompt ?? ''
 
-  let options: Chat.ConversationRequest = {}
+  let options = {}
 
   if (requestOptions.options)
     options = { ...requestOptions.options }
+    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
 
   loading.value = true
 
