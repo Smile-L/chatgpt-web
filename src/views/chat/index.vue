@@ -82,7 +82,7 @@ async function onConversation() {
 
   if (lastContext && usingContext.value)
     options = { ...lastContext }
-    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
+    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text ,status: item.status}))
 
   addChat(
     +uuid,
@@ -126,6 +126,7 @@ async function onConversation() {
                 loading: false,
                 conversationOptions: { conversationId: data.conversationId, parentMessageId: data.id },
                 requestOptions: { prompt: message, options: { ...options } },
+                status: data.status,
               },
             )
 

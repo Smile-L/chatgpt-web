@@ -8,6 +8,7 @@ declare namespace Chat {
 		loading?: boolean
 		conversationOptions?: ConversationRequest | null
 		requestOptions: { prompt: string; options?: ConversationRequest | null }
+		status: string
 	}
 
 	interface History {
@@ -41,5 +42,6 @@ declare namespace Chat {
 		parentMessageId: string
 		role: string
 		text: string
+		status: string
 	}
 }
