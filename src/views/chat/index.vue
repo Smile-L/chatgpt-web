@@ -26,6 +26,15 @@ const ms = useMessage()
 
 const chatStore = useChatStore()
 
+const now = new Date()
+const year = now.getFullYear()
+const month = (`0${now.getMonth() + 1}`).slice(-2)
+const day = (`0${now.getDate()}`).slice(-2)
+const hour = (`0${now.getHours()}`).slice(-2)
+const minute = (`0${now.getMinutes()}`).slice(-2)
+const second = (`0${now.getSeconds()}`).slice(-2)
+const dateString = `${year}/${month}/${day} ${hour}:${minute}:${second}`
+
 useCopyCode()
 
 const { isMobile } = useBasicLayout()
@@ -489,9 +498,27 @@ onUnmounted(() => {
               <SvgIcon icon="ri:bubble-chart-fill" class="mr-2 text-3xl" />
               <span>王兽医为您解答~</span>
             </div>
+            <div>
+                <Message
+                  :date-time="dateString"
+                  text="你好！我是你的AI宠物兽医， 很高兴为你的宠物提供帮助。请告诉我你的宠物遇到了什么问题，我会尽力提供专业建议。"
+                  :inversion="false"
+                  :error="false"
+                  :loading="false"
+                />
+              </div>
           </template>
           <template v-else>
             <div>
+              <div>
+                <Message
+                  :date-time="dateString"
+                  text="你好！我是你的AI宠物兽医，很高兴为你的宠物提供帮助。请告诉我你的宠物遇到了什么问题，我会尽力提供专业建议。"
+                  :inversion="false"
+                  :error="false"
+                  :loading="false"
+                />
+              </div>
               <Message
                 v-for="(item, index) of dataSources"
                 :key="index"
