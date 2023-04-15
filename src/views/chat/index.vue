@@ -70,6 +70,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: null },
+      status: data.status,
     },
   )
   scrollToBottom()
@@ -94,6 +95,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: { ...options } },
+      status: data.status,
     },
   )
   scrollToBottom()
@@ -191,6 +193,7 @@ async function onConversation() {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, options: { ...options } },
+        status: data.status, 
       },
     )
     scrollToBottom()
@@ -229,6 +232,7 @@ async function onRegenerate(index: number) {
       loading: true,
       conversationOptions: null,
       requestOptions: { prompt: message, ...options },
+      status: data.status,
     },
   )
 
@@ -260,6 +264,7 @@ async function onRegenerate(index: number) {
                 loading: false,
                 conversationOptions: { conversationId: data.conversationId, parentMessageId: data.id },
                 requestOptions: { prompt: message, ...options },
+                status: data.status,
               },
             )
 
@@ -303,6 +308,7 @@ async function onRegenerate(index: number) {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, ...options },
+        status: data.status,
       },
     )
   }
