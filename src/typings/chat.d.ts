@@ -1,8 +1,8 @@
 declare namespace Chat {
 	interface HistoryChat {
-		prompt: string,
-		text: string,
-		status: string,
+		prompt?: string,
+		text?: string,
+		status?: string,
 	}
 
 	interface Chat {

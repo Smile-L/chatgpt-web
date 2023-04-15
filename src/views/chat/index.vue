@@ -215,7 +215,7 @@ async function onRegenerate(index: number) {
 
   let message = requestOptions?.prompt ?? ''
 
-  let options = {}
+  let options: Chat.ConversationRequest = {}
 
   if (requestOptions.options)
     options = { ...requestOptions.options }
