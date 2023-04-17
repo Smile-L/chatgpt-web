@@ -26,6 +26,15 @@ const ms = useMessage()
 
 const chatStore = useChatStore()
 
+const now = new Date()
+const year = now.getFullYear()
+const month = (`0${now.getMonth() + 1}`).slice(-2)
+const day = (`0${now.getDate()}`).slice(-2)
+const hour = (`0${now.getHours()}`).slice(-2)
+const minute = (`0${now.getMinutes()}`).slice(-2)
+const second = (`0${now.getSeconds()}`).slice(-2)
+const dateString = `${year}/${month}/${day} ${hour}:${minute}:${second}`
+
 useCopyCode()
 
 const { isMobile } = useBasicLayout()
@@ -70,6 +79,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: null },
+      status: '{}'
     },
   )
   scrollToBottom()
@@ -77,7 +87,8 @@ async function onConversation() {
   loading.value = true
   prompt.value = ''
 
-  let options = {}
+  let options: Chat.ConversationRequest = {}
+
   const lastContext = conversationList.value[conversationList.value.length - 1]?.conversationOptions
 
   if (lastContext && usingContext.value)
@@ -94,6 +105,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: { ...options } },
+      status: '{}'
     },
   )
   scrollToBottom()
@@ -190,6 +202,7 @@ async function onConversation() {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, options: { ...options } },
+        status: '{}'
       },
     )
     scrollToBottom()
@@ -209,7 +222,7 @@ async function onRegenerate(index: number) {
 
   let message = requestOptions?.prompt ?? ''
 
-  let options = {}
+  let options: Chat.ConversationRequest = {}
 
   if (requestOptions.options)
     options = { ...requestOptions.options }
@@ -228,6 +241,7 @@ async function onRegenerate(index: number) {
       loading: true,
       conversationOptions: null,
       requestOptions: { prompt: message, ...options },
+      status: '{}'
     },
   )
 
@@ -259,6 +273,7 @@ async function onRegenerate(index: number) {
                 loading: false,
                 conversationOptions: { conversationId: data.conversationId, parentMessageId: data.id },
                 requestOptions: { prompt: message, ...options },
+                status: data.status,
               },
             )
 
@@ -302,6 +317,7 @@ async function onRegenerate(index: number) {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, ...options },
+        status: '{}'
       },
     )
   }
@@ -480,9 +496,29 @@ onUnmounted(() => {
               <SvgIcon icon="ri:bubble-chart-fill" class="mr-2 text-3xl" />
               <span>在线医生为您解答~</span>
             </div>
+            <div>
+                <Message
+                  :date-time="dateString"
+                  text="您好！我是AI在线分诊医生， 很高兴为您提供服务。请问您哪里不舒服？。"
+                  :inversion="false"
+                  :error="false"
+                  :loading="false"
+                />
+              </div>
+
           </template>
           <template v-else>
             <div>
+              <div>
+                <Message
+                  :date-time="dateString"
+                  text="您好！我是AI在线分诊医生， 很高兴为您提供服务。请问您哪里不舒服？。"
+                  :inversion="false"
+                  :error="false"
+                  :loading="false"
+                />
+              </div>
+
               <Message
                 v-for="(item, index) of dataSources"
                 :key="index"

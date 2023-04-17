@@ -1,5 +1,11 @@
 declare namespace Chat {
 
+	interface HistoryChat {
+		prompt: string,
+		text: string,
+		status?: string,
+	}
+
 	interface Chat {
 		dateTime: string
 		text: string
@@ -26,6 +32,7 @@ declare namespace Chat {
 	interface ConversationRequest {
 		conversationId?: string
 		parentMessageId?: string
+		history?: HistoryChat[]
 	}
 
 	interface ConversationResponse {
