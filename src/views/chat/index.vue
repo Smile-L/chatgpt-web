@@ -13,7 +13,7 @@ import HeaderComponent from './components/Header/index.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useChatStore, usePromptStore } from '@/store'
-import { fetchChatAPIProcess } from '@/api'
+import { fetchChatAPIProcess, saveChatLog } from '@/api'
 import { t } from '@/locales'
 
 let controller = new AbortController()
@@ -79,7 +79,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: null },
-      status: '{}'
+      status: '{}',
     },
   )
   scrollToBottom()
@@ -93,8 +93,7 @@ async function onConversation() {
 
   if (lastContext && usingContext.value)
     options = { ...lastContext }
-    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text ,status: item.status}))
-
+  options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text, status: item.status }))
 
   addChat(
     +uuid,
@@ -106,7 +105,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: { ...options } },
-      status: '{}'
+      status: '{}',
     },
   )
   scrollToBottom()
@@ -161,6 +160,13 @@ async function onConversation() {
     }
 
     await fetchChatAPIOnce()
+    // 在收到聊天响应后调用saveChatLog函数保存聊天记录
+    await saveChatLog({
+      user_id: 0, // 这里需要提供正确的用户ID,默认0
+      message_id: uuid, // 使用当前UUID作为消息ID
+      app_id: 0, // 这里需要提供正确的应用ID,默认0
+      chat_log: JSON.stringify(dataSources.value), // 将聊天记录作为字符串保存
+    })
   }
   catch (error: any) {
     const errorMessage = error?.message ?? t('common.wrong')
@@ -204,7 +210,7 @@ async function onConversation() {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, options: { ...options } },
-        status: '{}'
+        status: '{}',
       },
     )
     scrollToBottom()
@@ -228,7 +234,7 @@ async function onRegenerate(index: number) {
 
   if (requestOptions.options)
     options = { ...requestOptions.options }
-    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
+  options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
 
   loading.value = true
 
@@ -243,7 +249,7 @@ async function onRegenerate(index: number) {
       loading: true,
       conversationOptions: null,
       requestOptions: { prompt: message, ...options },
-      status: '{}'
+      status: '{}',
     },
   )
 
@@ -319,7 +325,7 @@ async function onRegenerate(index: number) {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, ...options },
-        status: '{}'
+        status: '{}',
       },
     )
   }
@@ -499,14 +505,14 @@ onUnmounted(() => {
               <span>王兽医为您解答~</span>
             </div>
             <div>
-                <Message
-                  :date-time="dateString"
-                  text="你好！我是你的AI宠物兽医， 很高兴为你的宠物提供帮助。请告诉我你的宠物遇到了什么问题，我会尽力提供专业建议。"
-                  :inversion="false"
-                  :error="false"
-                  :loading="false"
-                />
-              </div>
+              <Message
+                :date-time="dateString"
+                text="你好！我是你的AI宠物兽医， 很高兴为你的宠物提供帮助。请告诉我你的宠物遇到了什么问题，我会尽力提供专业建议。"
+                :inversion="false"
+                :error="false"
+                :loading="false"
+              />
+            </div>
           </template>
           <template v-else>
             <div>

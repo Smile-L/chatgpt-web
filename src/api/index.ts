@@ -46,3 +46,19 @@ export function fetchVerify<T>(token: string) {
     data: { token },
   })
 }
+
+export function saveChatLog<T = any>(
+  data: {
+    user_id: number
+    message_id: string
+    app_id: number
+    chat_log: string
+  },
+  signal?: GenericAbortSignal,
+) {
+  return post<T>({
+    url: '/chat_logs',
+    data,
+    signal,
+  })
+}
