@@ -12,9 +12,13 @@ import { useUsingContext } from './hooks/useUsingContext'
 import HeaderComponent from './components/Header/index.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { useChatStore, usePromptStore } from '@/store'
+import { useChatStore, usePromptStore, useUserStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
+
+const userStore = useUserStore()
+// const selectedOption = computed(() => userStore.userInfo.option)
+const selectedOption = userStore.userInfo.option
 
 let controller = new AbortController()
 
@@ -79,7 +83,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: null },
-      status: '{}'
+      status: '{}',
     },
   )
   scrollToBottom()
@@ -93,7 +97,7 @@ async function onConversation() {
 
   if (lastContext && usingContext.value)
     options = { ...lastContext }
-    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text ,status: item.status}))
+  options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text, status: item.status }))
 
   addChat(
     +uuid,
@@ -105,7 +109,7 @@ async function onConversation() {
       error: false,
       conversationOptions: null,
       requestOptions: { prompt: message, options: { ...options } },
-      status: '{}'
+      status: '{}',
     },
   )
   scrollToBottom()
@@ -117,6 +121,7 @@ async function onConversation() {
         prompt: message,
         options,
         signal: controller.signal,
+        selectedOption,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target
           const { responseText } = xhr
@@ -202,7 +207,7 @@ async function onConversation() {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, options: { ...options } },
-        status: '{}'
+        status: '{}',
       },
     )
     scrollToBottom()
@@ -226,7 +231,7 @@ async function onRegenerate(index: number) {
 
   if (requestOptions.options)
     options = { ...requestOptions.options }
-    options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
+  options.history = conversationList.value.map(item => ({ prompt: item.requestOptions.prompt, text: item.text }))
 
   loading.value = true
 
@@ -241,7 +246,7 @@ async function onRegenerate(index: number) {
       loading: true,
       conversationOptions: null,
       requestOptions: { prompt: message, ...options },
-      status: '{}'
+      status: '{}',
     },
   )
 
@@ -317,7 +322,7 @@ async function onRegenerate(index: number) {
         loading: false,
         conversationOptions: null,
         requestOptions: { prompt: message, ...options },
-        status: '{}'
+        status: '{}',
       },
     )
   }
@@ -497,15 +502,14 @@ onUnmounted(() => {
               <span>在线医生为您解答~</span>
             </div>
             <div>
-                <Message
-                  :date-time="dateString"
-                  text="您好！我是AI在线分诊医生， 很高兴为您提供服务。请问您哪里不舒服？。"
-                  :inversion="false"
-                  :error="false"
-                  :loading="false"
-                />
-              </div>
-
+              <Message
+                :date-time="dateString"
+                text="您好！我是AI在线分诊医生， 很高兴为您提供服务。请问您哪里不舒服？。"
+                :inversion="false"
+                :error="false"
+                :loading="false"
+              />
+            </div>
           </template>
           <template v-else>
             <div>

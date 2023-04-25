@@ -1,6 +1,13 @@
 import type { AxiosProgressEvent, GenericAbortSignal } from 'axios'
 import { post } from '@/utils/request'
 
+const urlMap: Record<string, string> = {
+  option1: '/chat',
+  option2: '/chat-medical',
+  option3: '/chat-stupid-medical',
+}
+// const url = urlMap[selectedOption.value]
+
 export function fetchChatAPI<T = any>(
   prompt: string,
   options?: { conversationId?: string; parentMessageId?: string },
@@ -8,6 +15,7 @@ export function fetchChatAPI<T = any>(
 ) {
   return post<T>({
     url: '/chat-medical',
+    // url:
     data: { prompt, options },
     signal,
   })
@@ -24,10 +32,11 @@ export function fetchChatAPIProcess<T = any>(
     prompt: string
     options?: { conversationId?: string; parentMessageId?: string }
     signal?: GenericAbortSignal
+    selectedOption: string
     onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },
 ) {
   return post<T>({
-    url: '/chat-medical',
+    url: urlMap[params.selectedOption], // '/chat-medical',
     data: { prompt: params.prompt, options: params.options },
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
