@@ -1,17 +1,18 @@
 import path from 'path'
 // import { defineConfig, loadEnv } from 'vite'
-import { defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig((env) => {
   // const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
   const viteEnv = {
-  VITE_GLOB_API_URL: '/api',
-  VITE_APP_API_BASE_URL: 'https://web-production-aafa.up.railway.app/',
-  VITE_GLOB_OPEN_LONG_REPLY: 'false'
-}
-  console.log(viteEnv)
+    VITE_GLOB_API_URL: '/api',
+    VITE_APP_API_BASE_URL: 'http://127.0.0.1:3002/',
+    VITE_USER_API_BASE_URL: 'http://127.0.0.1:8000/',
+    VITE_GLOB_OPEN_LONG_REPLY: 'false',
+  }
+  // console.log(viteEnv)
   return {
     resolve: {
       alias: {
@@ -37,10 +38,15 @@ export default defineConfig((env) => {
       port: 1002,
       open: false,
       proxy: {
-        '/api': {
+        '/chatapi': {
           target: viteEnv.VITE_APP_API_BASE_URL,
           changeOrigin: true, // 允许跨域
-          rewrite: path => path.replace('/api/', '/'),
+          rewrite: path => path.replace('/chatapi/', '/'),
+        },
+        '/loginapi': {
+          target: viteEnv.VITE_USER_API_BASE_URL,
+          changeOrigin: true, // 允许跨域
+          rewrite: path => path.replace('/loginapi/', '/'),
         },
       },
     },

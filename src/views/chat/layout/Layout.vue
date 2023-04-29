@@ -17,8 +17,10 @@ router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
 const { isMobile } = useBasicLayout()
 
 const collapsed = computed(() => appStore.siderCollapsed)
-
-const needPermission = computed(() => !!authStore.session?.auth && !authStore.token)
+// 判断用户是否登录成功
+const needPermission = computed(() => !authStore.session?.auth && !authStore.token)
+// const needPermission =
+// computed(() => !!authStore.session?.auth)
 
 const getMobileClass = computed(() => {
   if (isMobile.value)

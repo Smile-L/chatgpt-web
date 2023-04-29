@@ -17,23 +17,43 @@ const ms = useMessage()
 
 const loading = ref(false)
 const token = ref('')
+const username = ref('')
+const password = ref('')
 
-const disabled = computed(() => !token.value.trim() || loading.value)
+const disabled = computed(() => !password.value.trim() || loading.value)
 
 async function handleVerify() {
-  const secretKey = token.value.trim()
+  const usernamev = username.value.trim()
+  const passwordv = password.value.trim()
 
-  if (!secretKey)
+  if (!usernamev)
+    return
+  if (!passwordv)
     return
 
   try {
     loading.value = true
-    await fetchVerify(secretKey)
-    authStore.setToken(secretKey)
-    ms.success('success')
-    window.location.reload()
+    const response = await fetchVerify(
+      {
+        username: username.value,
+        password: password.value,
+      })
+    ms.info(response.data)
+    // 用户登录成功后操作; 这块逻辑存在问题
+    // if (response.status === 'Success') {
+    //   authStore.setToken(usernamev)
+    //   ms.success('success')
+    //   window.location.reload()
+    // }
+    // else {
+    //   ms.error(response.message ?? 'error') //
+    //   authStore.removeToken()
+    //   token.value = ''
+    // }
   }
   catch (error: any) {
+    // console.error(error)
+    // ms.info(error)
     ms.error(error.message ?? 'error')
     authStore.removeToken()
     token.value = ''
@@ -42,6 +62,37 @@ async function handleVerify() {
     loading.value = false
   }
 }
+
+// async function handleVerify() {
+//   const usernamev = username.value.trim()
+//   const passwordv = password.value.trim()
+
+//   if (!usernamev)
+//     return
+//   if (!passwordv)
+//     return
+
+//   try {
+//     loading.value = true
+//     await fetchVerify(
+//       {
+//         username: username.value,
+//         password: password.value,
+//       })
+//     authStore.setToken(usernamev)
+//     ms.success('success')
+//     window.location.reload()
+//   }
+//   catch (error: any) {
+//     ms.error(error.message ?? 'error')
+//     // ms.error('登录错误，请检查用户名和密码')
+//     authStore.removeToken()
+//     token.value = ''
+//   }
+//   finally {
+//     loading.value = false
+//   }
+// }
 
 function handlePress(event: KeyboardEvent) {
   if (event.key === 'Enter' && !event.shiftKey) {
@@ -64,7 +115,8 @@ function handlePress(event: KeyboardEvent) {
           </p>
           <Icon403 class="w-[200px] m-auto" />
         </header>
-        <NInput v-model:value="token" type="password" placeholder="" @keypress="handlePress" />
+        <NInput v-model:value="username" placeholder="输入用户名, 测试账号test" @keypress="handlePress" />
+        <NInput v-model:value="password" type="password" placeholder="输入密码，测试账号密码123456" @keypress="handlePress" />
         <NButton
           block
           type="primary"
@@ -72,7 +124,20 @@ function handlePress(event: KeyboardEvent) {
           :loading="loading"
           @click="handleVerify"
         >
-          {{ $t('common.verify') }}
+          <!-- <NButton
+          block
+          type="primary"
+          :loading="loading"
+          @click="handleVerify"
+        > -->
+          登录
+          <!-- {{ $t('common.verify') }} -->
+        </NButton>
+        <NButton
+          block
+          type="primary"
+        >
+          注册
         </NButton>
       </div>
     </div>
