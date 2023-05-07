@@ -2,8 +2,9 @@
 import { computed, ref } from 'vue'
 import { NButton, NInput, NModal, useMessage } from 'naive-ui'
 import { fetchVerify } from '@/api'
-import { useAuthStore } from '@/store'
 import Icon403 from '@/icons/403.vue'
+// import { authStore } from '@/auth'
+import { useAuthStore } from '@/store'
 
 interface Props {
   visible: boolean
@@ -33,12 +34,33 @@ async function handleVerify() {
 
   try {
     loading.value = true
-    const response = await fetchVerify(
+    await fetchVerify(
       {
         username: username.value,
         password: password.value,
       })
-    ms.info(response.data)
+    // ms.success('success')
+    // re
+    // ms.info(response.data)
+    loading.value = true
+    // await fetchVerify(secretKey)
+    authStore.setToken(username.value)
+    // ms.success('success')
+    // window.location.reload()
+
+    authStore.setToken(username.value)
+    // authStore.removeToken()
+
+    // const needPermission = computed(() => !authStore.token)
+    // if (needPermission.value)
+    //   ms.success('success')
+
+    // else
+    //   ms.success('fail  ')
+
+    // ms.success()
+    window.location.reload()
+
     // 用户登录成功后操作; 这块逻辑存在问题
     // if (response.status === 'Success') {
     //   authStore.setToken(usernamev)

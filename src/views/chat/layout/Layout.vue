@@ -4,6 +4,7 @@ import { NLayout, NLayoutContent } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import Sider from './sider/index.vue'
 import Permission from './Permission.vue'
+// import { authStore } from './auth'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useAppStore, useAuthStore, useChatStore } from '@/store'
 
@@ -12,13 +13,22 @@ const appStore = useAppStore()
 const chatStore = useChatStore()
 const authStore = useAuthStore()
 
-router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
+// authStore.setToken('asdf')
+// router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
+router.replace({ name: 'Chat', params: { uuid: authStore.token } })
 
 const { isMobile } = useBasicLayout()
 
 const collapsed = computed(() => appStore.siderCollapsed)
 // 判断用户是否登录成功
-const needPermission = computed(() => !authStore.session?.auth && !authStore.token)
+// const needPermission = computed(() => !authStore.session?.auth && !authStore.token)
+// authStore.removeToken()
+// const needPermission = computed(() => !authStore.token)
+const needPermission = computed(() => !authStore.token)
+const flag = !needPermission.value
+// const needPermission = false
+// computed(() => authStore.token)
+
 // const needPermission =
 // computed(() => !!authStore.session?.auth)
 
@@ -48,6 +58,6 @@ const getContainerClass = computed(() => {
         </NLayoutContent>
       </NLayout>
     </div>
-    <Permission :visible="needPermission" />
+    <Permission :visible="flag" />
   </div>
 </template>
