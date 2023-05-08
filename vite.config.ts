@@ -9,7 +9,7 @@ export default defineConfig((env) => {
   const viteEnv = {
     VITE_GLOB_API_URL: '/api',
     VITE_APP_API_BASE_URL: 'http://127.0.0.1:3002/',
-    VITE_USER_API_BASE_URL: 'http://127.0.0.1:8000/',
+    VITE_USER_API_BASE_URL: 'http://www.langchain.net.cn:8081/',
     VITE_GLOB_OPEN_LONG_REPLY: 'false',
   }
   // console.log(viteEnv)

@@ -1,18 +1,14 @@
 <script setup lang='ts'>
 import { computed, ref } from 'vue'
+
 import { NButton, NInput, NModal, useMessage } from 'naive-ui'
 import { fetchVerify } from '@/api'
 import Icon403 from '@/icons/403.vue'
-// import { authStore } from '@/auth'
-import { useAuthStore } from '@/store'
 
-interface Props {
-  visible: boolean
-}
-
-defineProps<Props>()
-
-const authStore = useAuthStore()
+defineProps({
+  visible: Boolean,
+  onUpdateToken: Function,
+})
 
 const ms = useMessage()
 
@@ -20,7 +16,6 @@ const loading = ref(false)
 const token = ref('')
 const username = ref('')
 const password = ref('')
-
 const disabled = computed(() => !password.value.trim() || loading.value)
 
 async function handleVerify() {
@@ -34,87 +29,25 @@ async function handleVerify() {
 
   try {
     loading.value = true
-    await fetchVerify(
+    const res = await fetchVerify(
       {
         username: username.value,
         password: password.value,
       })
-    // ms.success('success')
-    // re
-    // ms.info(response.data)
+
     loading.value = true
-    // await fetchVerify(secretKey)
-    authStore.setToken(username.value)
-    // ms.success('success')
-    // window.location.reload()
-
-    authStore.setToken(username.value)
-    // authStore.removeToken()
-
-    // const needPermission = computed(() => !authStore.token)
-    // if (needPermission.value)
-    //   ms.success('success')
-
-    // else
-    //   ms.success('fail  ')
-
-    // ms.success()
+    localStorage.setItem('logintoken', res.status)
     window.location.reload()
-
-    // 用户登录成功后操作; 这块逻辑存在问题
-    // if (response.status === 'Success') {
-    //   authStore.setToken(usernamev)
-    //   ms.success('success')
-    //   window.location.reload()
-    // }
-    // else {
-    //   ms.error(response.message ?? 'error') //
-    //   authStore.removeToken()
-    //   token.value = ''
-    // }
   }
   catch (error: any) {
-    // console.error(error)
-    // ms.info(error)
-    ms.error(error.message ?? 'error')
-    authStore.removeToken()
+    ms.error(error.message ?? '密码错误，请重新输入！')
+    localStorage.removeItem('logintoken')
     token.value = ''
   }
   finally {
     loading.value = false
   }
 }
-
-// async function handleVerify() {
-//   const usernamev = username.value.trim()
-//   const passwordv = password.value.trim()
-
-//   if (!usernamev)
-//     return
-//   if (!passwordv)
-//     return
-
-//   try {
-//     loading.value = true
-//     await fetchVerify(
-//       {
-//         username: username.value,
-//         password: password.value,
-//       })
-//     authStore.setToken(usernamev)
-//     ms.success('success')
-//     window.location.reload()
-//   }
-//   catch (error: any) {
-//     ms.error(error.message ?? 'error')
-//     // ms.error('登录错误，请检查用户名和密码')
-//     authStore.removeToken()
-//     token.value = ''
-//   }
-//   finally {
-//     loading.value = false
-//   }
-// }
 
 function handlePress(event: KeyboardEvent) {
   if (event.key === 'Enter' && !event.shiftKey) {

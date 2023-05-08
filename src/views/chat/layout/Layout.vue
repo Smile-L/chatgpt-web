@@ -1,5 +1,6 @@
 <script setup lang='ts'>
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
+
 import { NLayout, NLayoutContent } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import Sider from './sider/index.vue'
@@ -12,25 +13,19 @@ const router = useRouter()
 const appStore = useAppStore()
 const chatStore = useChatStore()
 const authStore = useAuthStore()
+provide('authStore', authStore)
 
-// authStore.setToken('asdf')
-// router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
-router.replace({ name: 'Chat', params: { uuid: authStore.token } })
+const storedToken = localStorage.getItem('logintoken')
+if (storedToken)
+  authStore.setToken(storedToken)
+
+router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
 
 const { isMobile } = useBasicLayout()
-
 const collapsed = computed(() => appStore.siderCollapsed)
-// 判断用户是否登录成功
-// const needPermission = computed(() => !authStore.session?.auth && !authStore.token)
-// authStore.removeToken()
-// const needPermission = computed(() => !authStore.token)
-const needPermission = computed(() => !authStore.token)
-const flag = !needPermission.value
-// const needPermission = false
-// computed(() => authStore.token)
 
-// const needPermission =
-// computed(() => !!authStore.session?.auth)
+const needPermission = computed(() => !authStore.token)
+const flag = needPermission.value
 
 const getMobileClass = computed(() => {
   if (isMobile.value)
