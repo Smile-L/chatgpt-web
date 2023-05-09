@@ -7,7 +7,7 @@ export function fetchChatAPI<T = any>(
   signal?: GenericAbortSignal,
 ) {
   return post<T>({
-    url: '/chat-pet-medical',
+    url: '/chatapi/chat-pet-medical',
     data: { prompt, options },
     signal,
   })
@@ -15,7 +15,7 @@ export function fetchChatAPI<T = any>(
 
 export function fetchChatConfig<T = any>() {
   return post<T>({
-    url: '/config',
+    url: '/chatapi/config',
   })
 }
 
@@ -27,7 +27,7 @@ export function fetchChatAPIProcess<T = any>(
     onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },
 ) {
   return post<T>({
-    url: '/chat-pet-medical',
+    url: '/chatapi/chat-pet-medical',
     data: { prompt: params.prompt, options: params.options },
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
@@ -36,14 +36,26 @@ export function fetchChatAPIProcess<T = any>(
 
 export function fetchSession<T>() {
   return post<T>({
-    url: '/session',
+    url: '/chatapi/session',
   })
 }
 
-export function fetchVerify<T>(token: string) {
+// export function fetchVerify<T>(token: string) {
+//   return post<T>({
+//     url: '/userapi/api/token',
+//     data: { token },
+//   })
+// }
+
+export function fetchVerify<T = any>(
+  data: {
+    username: string
+    password: string
+  },
+) {
   return post<T>({
-    url: '/verify',
-    data: { token },
+    url: '/loginapi/api/chat/login/',
+    data,
   })
 }
 
@@ -57,7 +69,7 @@ export function saveChatLog<T = any>(
   signal?: GenericAbortSignal,
 ) {
   return post<T>({
-    url: '/chat_logs',
+    url: '/chatapi/chat_logs',
     data,
     signal,
   })

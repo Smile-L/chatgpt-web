@@ -1,9 +1,11 @@
 <script setup lang='ts'>
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
+
 import { NLayout, NLayoutContent } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import Sider from './sider/index.vue'
 import Permission from './Permission.vue'
+// import { authStore } from './auth'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useAppStore, useAuthStore, useChatStore } from '@/store'
 
@@ -11,14 +13,19 @@ const router = useRouter()
 const appStore = useAppStore()
 const chatStore = useChatStore()
 const authStore = useAuthStore()
+provide('authStore', authStore)
+
+const storedToken = localStorage.getItem('logintoken')
+if (storedToken)
+  authStore.setToken(storedToken)
 
 router.replace({ name: 'Chat', params: { uuid: chatStore.active } })
 
 const { isMobile } = useBasicLayout()
-
 const collapsed = computed(() => appStore.siderCollapsed)
 
-const needPermission = computed(() => !!authStore.session?.auth && !authStore.token)
+const needPermission = computed(() => !authStore.token)
+const flag = needPermission.value
 
 const getMobileClass = computed(() => {
   if (isMobile.value)
@@ -46,6 +53,6 @@ const getContainerClass = computed(() => {
         </NLayoutContent>
       </NLayout>
     </div>
-    <Permission :visible="needPermission" />
+    <Permission :visible="flag" />
   </div>
 </template>

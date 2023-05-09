@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store'
 
 const service = axios.create({
   // baseURL: import.meta.env.VITE_GLOB_API_URL,
-  baseURL: '/api',
+  // baseURL: '/api',
 })
 // console.log( import.meta.env.VITE_GLOB_API_URL)
 service.interceptors.request.use(
