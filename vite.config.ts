@@ -8,11 +8,11 @@ export default defineConfig((env) => {
   // const viteEnv = loadEnv(env.mode, process.cwd()) as unknown as ImportMetaEnv
   const viteEnv = {
     VITE_GLOB_API_URL: '/api',
-    VITE_APP_API_BASE_URL: 'http://127.0.0.1:3002/',
+    VITE_APP_API_BASE_URL: 'https://web-production-aafa.up.railway.app/',
     VITE_USER_API_BASE_URL: 'http://www.langchain.net.cn:8081/',
     VITE_GLOB_OPEN_LONG_REPLY: 'false',
   }
-  // console.log(viteEnv)
+  console.log(viteEnv)
   return {
     resolve: {
       alias: {
