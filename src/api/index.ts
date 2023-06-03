@@ -65,6 +65,7 @@ export function saveChatLog<T = any>(
     message_id: string
     app_id: number
     chat_log: string
+    ip: string
   },
   signal?: GenericAbortSignal,
 ) {

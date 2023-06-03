@@ -159,13 +159,21 @@ async function onConversation() {
       })
     }
 
+    async function getClientIP() {
+      const response = await fetch('https://api.ipify.org?format=json')
+      const data = await response.json()
+      return data.ip
+    }
     await fetchChatAPIOnce()
     // 在收到聊天响应后调用saveChatLog函数保存聊天记录
+    const ip_adress = await getClientIP() // 获取客户端 IP 地址
+
     await saveChatLog({
       user_id: 0, // 这里需要提供正确的用户ID,默认0
       message_id: uuid, // 使用当前UUID作为消息ID
       app_id: 0, // 这里需要提供正确的应用ID,默认0
       chat_log: JSON.stringify(dataSources.value), // 将聊天记录作为字符串保存
+      ip: ip_adress, // 将客户端IP地址保存
     })
   }
   catch (error: any) {
